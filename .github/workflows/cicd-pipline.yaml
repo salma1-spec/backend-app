@@ -2,7 +2,7 @@ name: Pipeline CI/CD Backend-api
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
-  IMAGE_NAME: salma5/backend-image
+  IMAGE_NAME: backend-image
 
 on:
   push:

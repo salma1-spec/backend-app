@@ -2,7 +2,7 @@ name: Pipeline CI/CD Backend-api
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
-  IMAGE_NAME: backend-image
+  IMAGE_NAME: salma5/backend-image:latest
 
 on:
   push:
@@ -54,7 +54,7 @@ jobs:
 
       - name: Push Docker image with latest version
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-        
+
       - name: Clean old images
         run:  docker image prune -a --force --filter "until=24h"
    

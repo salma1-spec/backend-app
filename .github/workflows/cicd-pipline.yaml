@@ -1,4 +1,4 @@
-name: Pipeline CI/CD Backend-api
+name: devsecops pipline Backend-api
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
@@ -26,8 +26,8 @@ jobs:
 
       - name: Run unit tests
         run: npm test
-        
-    sast-scan:
+
+  sast-scan:
     runs-on: ubuntu-latest
     needs: test-job
     steps:
@@ -47,7 +47,7 @@ jobs:
 
   build-and-push-job:
     runs-on: ubuntu-latest
-    needs: test-job
+    needs: sast-scan
     steps:
       - name: Clone Source Code
         uses: actions/checkout@v4
@@ -74,8 +74,7 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Clean old images
-        run:  docker image prune -a --force --filter "until=24h"
-   
+        run: docker image prune -a --force --filter "until=24h"
 
   deploy-job:
     runs-on: ubuntu-latest
